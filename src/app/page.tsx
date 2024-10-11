@@ -1,101 +1,98 @@
-import Image from "next/image";
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { IoIosClose } from "react-icons/io";
+import { RxHamburgerMenu } from "react-icons/rx";
+
+const content =
+  "Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure obcaecati minus animi ea ad pariatur vero saepe! Nesciunt, voluptatum! Ducimus ea quia ut quam illo voluptatum non unde totam tempore. Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure obcaecati minus animi ea ad pariatur vero saepe! Nesciunt, voluptatum! Ducimus ea quia ut quam illo voluptatum non unde totam tempore.";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [on, setIsOn] = useState(false); // Track the box open/close state
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  // Event handlers
+  const handleOpenBox = () => setIsOn(true);
+  const handleCloseBox = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    event.stopPropagation(); // Prevent clicking the close button from triggering the box click
+    setIsOn(false);
+  };
+
+  // Animation vars for the box
+  const animateBox = {
+    height: on ? 140 : 80, // Animate height based on the state
+    width: on ? "100%" : 160,
+  };
+
+  const boxTransition = {
+    type: "spring",
+    stiffness: 300,
+    damping: 30,
+    mass: 1,
+  };
+
+  // Transition for the content
+  const contentTransition = {
+    type: "spring",
+    stiffness: 300,
+    damping: 30,
+    mass: 1,
+  };
+
+  return (
+    <div className="h-screen p-5 max-w-sm border mx-auto relative flex flex-col justify-between">
+      <div className="relative">
+        <header className="flex justify-between items-center">
+          <h1 className="font-bold text-3xl">Uglek Uglek App</h1>
+          <RxHamburgerMenu className="text-xl" />
+        </header>
+        <AnimatePresence></AnimatePresence>
+      </div>
+
+      <div id="box" className="flex flex-col items-center justify-center">
+        <motion.div
+          id="box"
+          onClick={handleOpenBox}
+          whileTap={{ scale: 0.9 }}
+          initial={false}
+          animate={animateBox}
+          transition={boxTransition}
+          className={`cursor-pointer bg-white rounded-md flex items-center justify-center text-black ${
+            on && "rounded-b-none"
+          }`}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          {on ? "I'm big now!" : "Tap on me!"}
+          <AnimatePresence>
+            {on && (
+              <motion.div
+                onClick={handleCloseBox}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute top-5 right-5 text-black text-3xl"
+              >
+                <IoIosClose />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+
+        <AnimatePresence>
+          {on && (
+            <motion.div
+              className="bg-gray-400 w-full p-5 overflow-hidden rounded-b-md"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 450, opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={contentTransition}
+            >
+              {content}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
